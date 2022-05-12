@@ -1,0 +1,83 @@
+﻿@model MVCWebSite.Models.Prodotto
+
+<!-- include the js -->
+<script src="~/Scripts/alertify.min.js"></script>
+<!-- include the style -->
+<link rel="stylesheet" href="~/Content/alertifyjs/alertify.min.css" />
+<!-- include a theme -->
+<link rel="stylesheet" href="~/Content/alertifyjs/themes/default.min.css" />
+
+@if (ViewBag.alert == true)
+{
+    <script>alertify.error('@ViewBag.Message');</script>
+}
+
+@{
+    ViewBag.Title = "Prodotto";
+}
+
+@if (ViewBag.Visualizza)
+{
+
+<pre>@Model.NomeProdotto           €@Model.CostoProdotto</pre>
+
+    <header>
+        @if (!File.Exists(Server.MapPath("~/ImmaginiProdotti/" + Model.ImmagineProdotto)))
+        {
+            <img src="~/ImmaginiAmministratore/ProdottoGenerico.png" alt="Avatar" style="width:50%">
+        }
+        else
+        {
+            <img src="~/ImmaginiProdotti/@Model.ImmagineProdotto?@DateTime.Now.ToLongTimeString()" alt="Avatar" style="width:50%">
+        }
+
+
+        <b style="position: absolute; top: 150px; left: 55%; font-size: 40px; color:olivedrab ">Descrizione prodotto</b>
+
+        @if (Model.DescrizioneProdotto != "")
+        {
+            <div style="position: absolute; top: 230px; left: 55%; right: 23%; padding:10px 5px 10px 10px; margin: 0px; background-color: #ffd5c6; font-size:16px">@Model.DescrizioneProdotto</div>
+
+        }
+        else
+        {
+            <div style="position: absolute; top: 230px; left: 55%; right: 23%; padding:10px 5px 10px 10px; margin: 0px; background-color: #ffd5c6; font-size:16px">Prodotto senza descrizione!</div>
+        }
+    </header>
+    <section>
+        <br />
+        <nav>
+            <font face="Calibri" , size="5">
+                Materiale: @Model.Materiale<br /><br />
+                Tempo Spedizione: @Model.TempoSpedizione<br /><br />
+                <font color="red">
+                    Prodotti disponibili: @Model.Quantita
+                </font>
+            </font>
+        </nav>
+
+        <article>
+            <br />
+            <br />
+            <br />
+            <button style="margin-left:250px;" class="buttonX buttonX1">@Html.ActionLink("Add Cart", "AddCartProduct", new { ASIN = Model.ASIN, quantita = 1, costoProdotto = Model.CostoProdotto }, new { @class = "actionclass" })</button>
+            @if (ViewBag.Valutazione != null && ViewBag.Valutazione)
+            {
+                <button style="margin-left:250px;" class="buttonX buttonX1">@Html.ActionLink("Valuta", "Valutazioni", "Valutazioni", new { ASIN = Model.ASIN, nomeProdotto = Model.NomeProdotto }, new { @class = "actionclass" })</button>
+            }
+        </article>
+    </section>
+
+
+
+    Html.RenderAction("ValutazioniProdotto", new { ASIN = Model.ASIN });
+
+
+    <br />
+    <br />
+}
+else
+{
+    <h2><font color="red">Accesso negato!</font></h2>
+    <h4><font color="red">Accedi a questa pagina attraverso la giusta procedura!</font></h4>
+}

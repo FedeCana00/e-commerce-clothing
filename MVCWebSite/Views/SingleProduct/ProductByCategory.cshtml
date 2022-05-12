@@ -1,0 +1,65 @@
+﻿@model MVCWebSite.Models.ProdottoModel
+
+<!-- include the js -->
+<script src="~/Scripts/alertify.min.js"></script>
+<!-- include the style -->
+<link rel="stylesheet" href="~/Content/alertifyjs/alertify.min.css" />
+<!-- include a theme -->
+<link rel="stylesheet" href="~/Content/alertifyjs/themes/default.min.css" />
+
+
+@if (ViewBag.alert == true)
+{
+    <script>alertify.error('@ViewBag.Message');</script>
+}
+
+@if (ViewBag.Visualizza)
+{
+    if (Model.ListaProdotti.Count > 0)
+    {
+        <h2>@Model.ListaProdotti.First().Categoria</h2>
+    }
+    else
+    {
+        <h2><font color="red">Nessun prodotto corrispondente per questa categoria!</font></h2>
+        <h4><font color="red">Nessun venditore ha ancora pubblicato un prodotto inerente a questa categoria. Ti invitiamo a riprovare pi&uacute; avanti.</font></h4>
+    }
+
+    <div class="flex-container">
+        @foreach (var el in Model.ListaProdotti)
+        {
+
+            <div class="cardProduct">
+
+                @if (!File.Exists(Server.MapPath("~/ImmaginiProdotti/" + el.ImmagineProdotto))) //controllo se esiste il file
+                {
+                    <img src="~/ImmaginiAmministratore/ProdottoGenerico.png" alt="Avatar" style="width:100%">
+                }
+                else
+                {
+                    <img src="~/ImmaginiProdotti/@el.ImmagineProdotto?@DateTime.Now.ToLongTimeString()" alt="Avatar" style="width:100%">
+                }
+
+                @Html.ActionLink("Vedi Prodotto", "SingleProduct", new { ASIN = el.ASIN })
+
+                <h1>@el.NomeProdotto</h1>
+                <p class="priceProduct">€@el.CostoProdotto</p>
+                <!-- Passo il prodotto al carrello -->
+                <p><button class="cardProductButton">@Html.ActionLink("Add Cart", "AddCartProduct", new { ASIN = el.ASIN, quantita = 1, costoProdotto = el.CostoProdotto })</button></p>
+            </div>
+
+
+        }
+    </div>
+}
+else
+{
+    <h2><font color="red">Accesso negato!</font></h2>
+    <h4><font color="red">Accedi a questa pagina attraverso la giusta procedura!</font></h4>
+}
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,55 @@
+﻿@model MVCWebSite.Models.CompraVenditaModel
+
+
+@{
+    ViewBag.Title = "Dashboard Vendite";
+}
+
+@if ((string)Session["activeID"] != null)
+{
+    <h2>DashboardVendite</h2>
+
+    double profitti = 0;
+    int i = 0;
+
+
+    if (Model.ListaProdotti.Count > 0)
+    {
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <td>ASIN</td>
+                <td>Nome Prodotto</td>
+                <td>Taglia</td>
+                <td>Prezzo</td>
+                <td>Quantità</td>
+                <td>Data</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var el in Model.ListaProdotti)
+            {
+
+                <tr>
+                    <td>@el.Prodotto.ASIN</td>
+                    <td>@el.Prodotto.NomeProdotto</td>
+                    <td>@el.Prodotto.Taglie</td>
+                    <td>@el.Prodotto.CostoProdotto€</td>
+                    <td>@el.Qt</td>
+                    <td>@el.Data.ToShortDateString()</td>
+                </tr>
+
+                profitti += el.Prodotto.CostoProdotto * el.Qt;
+                i += el.Qt;
+            }
+        </tbody>
+    </table>
+    }
+    <h3>Totale profitti: @profitti€</h3>
+    <h4>Vendite totali: @i</h4>
+}
+else
+{
+    <h2><font color="red">Non sei loggato!</font></h2>
+    <h4><font color="red">Per poter accedere a questa funzionalità devi essere loggato!</font></h4>
+}

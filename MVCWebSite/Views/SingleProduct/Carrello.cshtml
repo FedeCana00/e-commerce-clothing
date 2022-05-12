@@ -1,0 +1,114 @@
+﻿@model MVCWebSite.Models.CarrelloModel
+
+<!-- include the js -->
+<script src="~/Scripts/alertify.min.js"></script>
+<!-- include the style -->
+<link rel="stylesheet" href="~/Content/alertifyjs/alertify.min.css" />
+<!-- include a theme -->
+<link rel="stylesheet" href="~/Content/alertifyjs/themes/default.min.css" />
+
+@{
+    ViewBag.Title = "Carrello";
+}
+
+@if (ViewBag.AlertWarning != null && ViewBag.AlertWarning)
+{
+    <script>alertify.alert('@ViewBag.MessageWarning');</script>
+}
+
+@if (ViewBag.Alert == true)
+{
+    <script>alertify.error('@ViewBag.Message');</script>
+}
+
+@if (ViewBag.AlertSucces != null && ViewBag.AlertSucces == true)
+{
+    <script>alertify.success('@ViewBag.MessageSuccess');</script>
+}
+
+@{
+    ViewBag.Title = "Carrello";
+}
+
+<h2><img src="~/ImmaginiAmministratore/shopping-bag.png" width="64" height="64" />Prodotti nel tuo carrello</h2>
+
+@if (Session["activeID"] != null)
+{
+    if (Model.ListaElementiCarrello.Count > 0) //controllo se ci sono elementi
+    {
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <td>ASIN</td>
+                    <td>Nome Prodotto</td>
+                    <td>Materiale</td>
+                    <td>Quantità</td>
+                    <td>Taglia</td>
+                    <td>Costo Reso</td>
+                    <td>Prezzo</td>
+                    <td>Tempo Spedizione</td>
+                    <td>Categoria</td>
+                    <td>Sottrai</td>
+                    <td>Aggiungi</td>
+                    <td>Elimina</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var el in Model.ListaElementiCarrello)
+                {
+                    <tr>
+                        <td>@el.Prodotto.ASIN</td>
+                        <td>@el.Prodotto.NomeProdotto</td>
+                        <td>@el.Prodotto.Materiale</td>
+                        <td>@el.Quantita</td>
+                        <td>@el.Prodotto.Taglie</td>
+                        <td>@el.Prodotto.CostoReso €</td>
+                        <td>@el.CostoTot €</td>
+                        <td>@el.Prodotto.TempoSpedizione</td>
+                        <td>@el.Prodotto.Categoria</td>
+                        @if (el.Quantita > 1)
+                        {
+                            <td>
+                                @Html.ActionLink(" ", "SubElementCard", new { ASIN = el.Prodotto.ASIN, quantita = el.Quantita, prezzoProdotto = el.Prodotto.CostoProdotto }, new
+                       {
+                           style = "background: url('../ImmaginiAmministratore/minus.png') no-repeat center right;display:block; height:24px; width:24px;"
+                       })
+                        </td>
+                        <!-- nome dell'azione, metodo da richiamare, eventuali parametri -->
+                    }
+                    else
+                    {
+                        <!-- Stampo un meno rosso così l'utente sa che non può cliccarlo o se lo fa non fa nulla -->
+                        <td><img src="../ImmaginiAmministratore/negative.png" style="width:24px;height:24px" ;></td>
+                    }
+                        <td>
+                            @Html.ActionLink(" ", "AddElementCard", new { ASIN = el.Prodotto.ASIN, quantita = el.Quantita, prezzoProdotto = el.Prodotto.CostoProdotto }, new
+                   {
+                       style = "background: url('../ImmaginiAmministratore/more.png') no-repeat center right;display:block; height:24px; width:24px;"
+                   })
+                    </td> <!-- nome dell'azione, metodo da richiamare, eventuali parametri -->
+                    <td>
+                        @Html.ActionLink(" ", "DeleteFromCart", new { ASIN = el.Prodotto.ASIN, nomeProdotto = el.Prodotto.NomeProdotto }, new
+               {
+                   style = "background: url('../ImmaginiAmministratore/remove.png') no-repeat center right;display:block; height:24px; width:24px;"
+               })
+                </td> <!-- nome dell'azione, metodo da richiamare, eventuali parametri -->
+            </tr>
+        }
+            </tbody>
+        </table>
+        <h1>TOTALE:  @ViewBag.TotalPrize €</h1>
+        <div style="float:right;">@Html.ActionLink("Acquista", "ShopCartProduct", new { totale = ViewBag.TotalPrize }, new { @class = "btn btn-primary btn-large" })</div>
+    }
+    else
+    {
+        <h4> Nessun elemento nel carrello!</h4>
+        <div>@Html.ActionLink("Vedi prodotti", "CardProduct", null, new { @class = "btn btn-primary btn-large" })</div>
+    }
+}
+else
+{
+    <br />
+    <h2><font color="red"> Non sei loggato!</font></h2>
+    <h4><font color="red">Per poter vedere il tuo carrello devi prima loggarti!</font></h4>
+}

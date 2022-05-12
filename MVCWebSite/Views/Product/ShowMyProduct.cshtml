@@ -1,0 +1,122 @@
+﻿@model MVCWebSite.Models.ProdottoModel
+
+@{
+    ViewBag.Title = "I miei prodotti";
+}
+
+<!-- include the js -->
+<script src="~/Scripts/alertify.min.js"></script>
+<!-- include the style -->
+<link rel="stylesheet" href="~/Content/alertifyjs/alertify.min.css" />
+<!-- include a theme -->
+<link rel="stylesheet" href="~/Content/alertifyjs/themes/default.min.css" />
+
+@if (ViewBag.alert == true)
+{
+    <script>alertify.error('@ViewBag.Message');</script>
+}
+@if (ViewBag.Success == true)
+{
+    <script>alertify.success('@ViewBag.SuccessMessage');</script>
+}
+
+@if (Session["activeID"] != null)
+{
+
+    <h1>I tuoi prodotti in vendita</h1>
+    <h5>In questa pagina puoi visualizzare tutti i tuoi prodotti in vendita ed eseguire azioni di eliminazione e modifica!</h5>
+    if (Model.ListaProdotti.Count > 0)
+    {
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <td>Immagine</td>
+                    <td>ASIN</td>
+                    <td>Nome Prodotto</td>
+                    <td>Materiale</td>
+                    <td>Quantità</td>
+                    <td>Taglia</td>
+                    <td>Costo Reso</td>
+                    <td>Prezzo</td>
+                    <td>Tempo Spedizione</td>
+                    <td>Categoria</td>
+                    <td>Aggiorna</td>
+                    <td>Elimina</td>
+                    <td>Carica Immagine</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var el in Model.ListaProdotti)
+                {
+                    <tr>
+                        <td>
+                            @if (!File.Exists(Server.MapPath("~/ImmaginiProdotti/" + el.ImmagineProdotto))) //controllo se esiste il file
+                            {
+                                <img src="~/ImmaginiAmministratore/ProdottoGenerico.png" alt="Avatar" width="36" height="36">
+                            }
+                            else
+                            {
+                                <img src="~/ImmaginiProdotti/@el.ImmagineProdotto?@DateTime.Now.ToLongTimeString()" alt="Avatar" width="36" height="36">
+                            }
+                        </td>
+                        @if (el.Quantita == 0)
+                        {
+                            <td><font color="red">@el.ASIN</font></td>
+                            <td><font color="red">@el.NomeProdotto</font></td>
+                            <td><font color="red">@el.Materiale</font></td>
+                            <td><font color="red">@el.Quantita</font></td>
+                            <td><font color="red">@el.Taglie</font></td>
+                            <td><font color="red">@el.CostoReso€</font></td>
+                            <td><font color="red">@el.CostoProdotto€</font></td>
+                            <td><font color="red">@el.TempoSpedizione</font></td>
+                            <td><font color="red">@el.Categoria</font></td>
+                        }
+                        else
+                        {
+                            <td>@el.ASIN</td>
+                            <td>@el.NomeProdotto</td>
+                            <td>@el.Materiale</td>
+                            <td>@el.Quantita</td>
+                            <td>@el.Taglie</td>
+                            <td>@el.CostoReso</td>
+                            <td>@el.CostoProdotto</td>
+                            <td>@el.TempoSpedizione</td>
+                            <td>@el.Categoria</td>
+                        }
+                        <td>
+                            @Html.ActionLink(" ", "UpdateProduct", new { ASIN = el.ASIN, nome = el.NomeProdotto, materiale = el.Materiale, venditoreID = el.Venditore.ID, quantita = el.Quantita, taglia = el.Taglie, costoReso = el.CostoReso, costoProdotto = el.CostoProdotto, tempoSpedizione = el.TempoSpedizione, categoria = el.Categoria, descrizione = el.DescrizioneProdotto },
+                 new
+                 {
+                     style = "background: url('../ImmaginiAmministratore/refresh.png') no-repeat center right;display:block; height:24px; width:24px;"
+                 })
+                        </td> <!-- nome dell'azione, metodo da richiamare, eventuali parametri -->
+                        <td>
+                            @Html.ActionLink(" ", "Delete", new { ASINDelete = el.ASIN, nomeProdottoDel = el.NomeProdotto }, new
+                       {
+                           style = "background: url('../ImmaginiAmministratore/remove.png') no-repeat center right;display:block; height:24px; width:24px;"
+                       })
+                        </td> <!-- nome dell'azione, metodo da richiamare, eventuali parametri -->
+                        <td>
+                            @Html.ActionLink(" ", "UploadImageProduct", new { ASIN = el.ASIN }, new
+                       {
+                           style = "background: url('../ImmaginiAmministratore/image-file.png') no-repeat center right;display:block; height:24px; width:24px;align:center;"
+                       })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    <div class="btn btn-default" style="margin-bottom:10px">@Html.ActionLink("Aggiungi Prodotto", "AddProduct")</div>
+
+    <br />
+    <br />
+    <br />
+}
+else
+{
+    <br />
+    <h2><font color="red"> Non sei loggato!</font></h2>
+    <h4><font color="red">Per poter visualizzare questa pagina devi prima eseguire l'accesso!</font></h4>
+}

@@ -1,0 +1,46 @@
+﻿@if ((string)Session["activeID"] != null)
+{
+
+    <h2>Immagine prodotto</h2>
+    <h4>Scegli l'immagine che più si adatta al tuo prodotto e caricala per invogliare i clienti ad acquistare IL TUO PRODOTTO!</h4>
+
+    var imagePath = Session["imagePath"].ToString() + ".png" + "?" + DateTime.Now.ToLongTimeString(); //per evitare il caching delle immagini
+
+    <div align="center"><img src="~/ImmaginiProdotti/@imagePath" width="250" height="250" /></div>
+    using (Html.BeginForm("UploadImageProduct",
+                            "Product",
+                            FormMethod.Post,
+                            new { enctype = "multipart/form-data" }))
+    {
+        <div align="center">
+            <label for="file">Carica Immagine:</label>
+            <input type="file" name="file" id="file" />
+            <br>
+            <br>
+
+            <input type="submit" value="Upload Image" />
+        </div>
+    }
+}
+else
+{
+    <h2><font color="red">Non sei loggato!</font></h2>
+    <h4><font color="red">Per poter accedere a questa funzionalità devi essere loggato!</font></h4>
+}
+
+<!-- include the js -->
+<script src="~/Scripts/alertify.min.js"></script>
+<!-- include the style -->
+<link rel="stylesheet" href="~/Content/alertifyjs/alertify.min.css" />
+<!-- include a theme -->
+<link rel="stylesheet" href="~/Content/alertifyjs/themes/default.min.css" />
+
+@if (ViewBag.alert == true)
+{
+    <script>alertify.error('@ViewBag.Message');</script>
+}
+
+@if (ViewBag.Success == true)
+{
+    <script>alertify.success('@ViewBag.SuccessMessage');</script>
+}

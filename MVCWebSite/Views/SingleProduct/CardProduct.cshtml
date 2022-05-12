@@ -1,0 +1,95 @@
+﻿@model MVCWebSite.Models.ProdottoModel
+
+<!-- include the js -->
+<script src="~/Scripts/alertify.min.js"></script>
+<!-- include the style -->
+<link rel="stylesheet" href="~/Content/alertifyjs/alertify.min.css" />
+<!-- include a theme -->
+<link rel="stylesheet" href="~/Content/alertifyjs/themes/default.min.css" />
+
+@{
+    ViewBag.Title = "Prodotti";
+}
+
+@if (ViewBag.alert == true)
+{
+    <script>alertify.alert('@ViewBag.alertMessage');</script>
+}
+
+    <h2>Ecco i prodotti disponibili!</h2>
+
+
+    <h3 class="w3-bar-item">Categorie</h3>
+
+    <h4 style="font-size:15px">
+        @Html.ActionLink("Intimo", "ProductByCategory", new { Categoria = "Intimo" }) &emsp;
+        @Html.ActionLink("Calzature", "ProductByCategory", new { Categoria = "Calzature" }) &emsp;
+        @Html.ActionLink("Abbigliamento sportivo", "ProductByCategory", new { Categoria = "Abbigliamento sportivo" }) &emsp;
+        @Html.ActionLink("Accessori", "ProductByCategory", new { Categoria = "Accessori" }) &emsp;
+        @Html.ActionLink("Maglieria", "ProductByCategory", new { Categoria = "Maglieria" }) &emsp;
+        @Html.ActionLink("Pantaloni", "ProductByCategory", new { Categoria = "Pantaloni" }) &emsp;
+        @Html.ActionLink("Giacche", "ProductByCategory", new { Categoria = "Giacche" }) &emsp;
+        @Html.ActionLink("Cappotti", "ProductByCategory", new { Categoria = "Cappotti" }) &emsp;
+        @Html.ActionLink("Completi", "ProductByCategory", new { Categoria = "Completi" }) &emsp;
+        @Html.ActionLink("Camicie", "ProductByCategory", new { Categoria = "Camicie" })
+    </h4>
+
+
+
+    @if (Model != null)
+    {
+        <div class="flex-container">
+            @foreach (var el in Model.ListaProdotti)
+            {
+                <div class="cardProduct">
+                    @if (!File.Exists(Server.MapPath("~/ImmaginiProdotti/" + el.ImmagineProdotto))) //controllo se esiste il file
+                    {
+                        <img src="~/ImmaginiAmministratore/ProdottoGenerico.png" alt="Avatar" style="width:100%"> <!-- assegno immagine di default -->
+                    }
+                    else
+                    {
+                        <img src="~/ImmaginiProdotti/@el.ImmagineProdotto?@DateTime.Now.ToLongTimeString()" alt="Avatar" style="width:100%">
+                    }
+
+
+                    @Html.ActionLink("Vedi Prodotto", "SingleProduct", new { ASIN = el.ASIN })
+
+                    <h1>@el.NomeProdotto</h1>
+                    <p class="priceProduct">€@el.CostoProdotto</p>
+                    <!--Passo il prodotto al carrello-->
+                    <p><button class="cardProductButton">@Html.ActionLink("Add Cart", "AddCartProduct", new { ASIN = el.ASIN, quantita = 1, costoProdotto = el.CostoProdotto })</button></p>
+                </div>
+
+
+            }
+
+        </div>
+    }
+    @if (ViewBag.NextPage != null)
+    {
+        <div style="float:right">
+            @Html.ActionLink(" ", "CardProduct", new { page = ViewBag.NextPage }, new
+       {
+           style = "background: url('../ImmaginiAmministratore/nextPage.png') no-repeat center right;display:block; height:32px; width:32px;"
+       })
+        </div>
+    }
+    @if (ViewBag.PreviousPage != null)
+    {
+        <div style="float:left">
+            @Html.ActionLink(" ", "CardProduct", new { page = ViewBag.PreviousPage }, new
+       {
+           style = "background: url('../ImmaginiAmministratore/previousPage.png') no-repeat center right;display:block; height:32px; width:32px;"
+       })
+        </div>
+    }
+
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

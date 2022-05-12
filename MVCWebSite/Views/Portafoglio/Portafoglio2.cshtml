@@ -1,0 +1,30 @@
+﻿@model MVCWebSite.Models.Utente
+
+<!-- include the js -->
+<script src="~/Scripts/alertify.min.js"></script>
+<!-- include the style -->
+<link rel="stylesheet" href="~/Content/alertifyjs/alertify.min.css" />
+<!-- include a theme -->
+<link rel="stylesheet" href="~/Content/alertifyjs/themes/default.min.css" />
+
+@if (ViewBag.Alert == true)
+{
+    <script>alertify.error('@ViewBag.Message');</script>
+}
+
+@{
+    ViewBag.Title = "Portafoglio";
+}
+
+@if ((string)Session["activeID"] != null)
+{
+    <h2>Portafoglio aggiornato!!</h2>
+
+    <h3 style="font-size:20px; color: mediumseagreen">Nuovo credito: €@Model.Portafoglio</h3>
+    <div align="center"><img src="~/ImmaginiAmministratore/money.gif"></div>
+}
+else
+{
+    <h2><font color="red">Non sei loggato!</font></h2>
+    <h4><font color="red">Per poter accedere a questa funzionalità devi essere loggato!</font></h4>
+}

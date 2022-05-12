@@ -1,0 +1,32 @@
+﻿@model MVCWebSite.Models.ValutazioniModel
+
+<!-- include the js -->
+<script src="~/Scripts/alertify.min.js"></script>
+<!-- include the style -->
+<link rel="stylesheet" href="~/Content/alertifyjs/alertify.min.css" />
+<!-- include a theme -->
+<link rel="stylesheet" href="~/Content/alertifyjs/themes/default.min.css" />
+
+@if (ViewBag.alert == true)
+{
+    <script>alertify.error('@ViewBag.Message');</script>
+}
+
+
+    <div style="width: 1000px ;  height: 190px; padding: 4px; border: 1px solid #EEE; overflow: auto">
+
+        @foreach (var val in Model.ListaValutazioni)
+        {
+
+
+            <p>
+                @for (int i = 0; i < val.Stelle; i++)
+                {<img src="~/ImmaginiAmministratore/Stella.png" width="20" height="20" />}
+            </p>
+            <p>@val.Recensione</p>
+            <p><b>@val.Data.ToShortDateString() @val.Utente.ID</b></p>
+            <hr />
+        }
+
+
+    </div>

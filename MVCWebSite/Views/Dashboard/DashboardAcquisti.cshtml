@@ -1,0 +1,72 @@
+﻿@model MVCWebSite.Models.CompraVenditaModel
+
+
+@{
+    ViewBag.Title = "Dashboard Acquisti";
+}
+
+@if ((string)Session["activeID"] != null)
+{
+    <h2>DashboardAcquisti</h2>
+
+    double spese = 0;
+    int i = 0;
+    int j = 0;
+
+    if(Model.ListaProdotti.Count > 0) {
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <td>ASIN</td>
+                <td>Nome Prodotto</td>
+                <td>Taglia</td>
+                <td>Prezzo</td>
+                <td>Quantità</td>
+                <td>Data</td>
+                <td>Recensione</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var el in Model.ListaProdotti)
+            {
+                <tr>
+                    <td>@el.Prodotto.ASIN</td>
+                    <td>@el.Prodotto.NomeProdotto</td>
+                    <td>@el.Prodotto.Taglie</td>
+                    <td>@el.Prodotto.CostoProdotto€</td>
+                    <td>@el.Qt</td>
+                    <td>@el.Data.ToShortDateString()</td>
+                    @if ((ViewBag.EvaluatedList as ICollection<bool>).ElementAt(j))
+                    { //conversione esplicita del viewbag
+                        <td>
+                            @Html.ActionLink(" ", "Valutazioni", "Valutazioni", new { ASIN = el.Prodotto.ASIN }, new
+                        {
+                            style = "background: url('../ImmaginiAmministratore/review.png') no-repeat center right;display:block; height:24px; width:24px;"
+                        })
+                        </td>
+                    }
+                    else
+                    {
+                        <td><img src="~/ImmaginiAmministratore/block.png" width="24" height="24" /></td>
+                    }
+                    @{
+                        j++;
+                    }
+                </tr>
+
+                spese += el.Prodotto.CostoProdotto * el.Qt;
+                i += el.Qt;
+
+            }
+        </tbody>
+    </table>
+    }
+
+    <h3>Totale spese: @spese€</h3>
+    <h4>Acquisti totali: @i</h4>
+}
+else
+{
+    <h2><font color="red">Non sei loggato!</font></h2>
+    <h4><font color="red">Per poter accedere a questa funzionalità devi essere loggato!</font></h4>
+}

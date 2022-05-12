@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - UNI-STORE</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background-color: royalblue;border-color: darkcyan;">
+        <div class="container">
+            <div class="navbar-header">
+                @Html.ActionLink("UNI-STORE", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @if (Session["activeID"] == null)
+                    {
+                        <li style="color: khaki">@Html.ActionLink("Accesso", "Login", "Home")</li>
+                    }
+                    <li>@Html.ActionLink("Carrello", "Carrello", "SingleProduct")</li>
+                    <li>@Html.ActionLink("Prodotti", "CardProduct", "SingleProduct")</li>
+                    @if (Session["activeID"] != null)
+                    {
+                        <li>@Html.ActionLink("MyProducts", "ShowMyProduct", "Product")</li>
+                        if ((string)Session["activeRole"] != "V")
+                        {
+                            <li>@Html.ActionLink("Portafoglio", "Portafoglio", "Portafoglio")</li>
+                        }
+                            <li>@Html.ActionLink("Vendite", "DashboardVendite", "Dashboard")</li>
+
+                            if ((string)Session["activeRole"] != "V")
+                            {
+                                <li>@Html.ActionLink("Acquisti", "DashboardAcquisti", "Dashboard")</li>
+                            }
+                        }
+                        @if ((string)Session["activeRole"] == "A")
+                        {
+                            <li>@Html.ActionLink("Admin", "Users", "Administrator")</li>
+                        }
+                    </ul>
+                @if (Session["activeID"] != null)
+                {
+                    using (Html.BeginForm("Logout", "Home"))
+                    {
+                        <input type="image" src="~/ImmaginiAmministratore/exit.png" alt="Submit" width="32" height="32" style="float:right;" />
+                    }
+                    <div style="float:right;font-size:xx-large;color:white;font-family:'Times New Roman', Times, serif;">@Html.ActionLink(Session["activeUsername"].ToString(), "UpdateProfile", "Home", null, new { @style = "color: white" })</div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <div class="footer">
+            <footer>
+                
+                <p>&copy; @DateTime.Now.Year  &sdot;  e-commerce Federico Canali & Francesco Marchi  &sdot;  @Html.ActionLink("Informazioni", "About", "Home",null, new { @class = "footerStyle" })  &sdot;  @Html.ActionLink("Contatto", "Contact", "Home",null, new { @class = "footerStyle" })</p>
+
+            </footer>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

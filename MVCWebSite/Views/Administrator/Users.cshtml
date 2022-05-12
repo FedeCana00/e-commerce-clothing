@@ -1,0 +1,100 @@
+﻿@model MVCWebSite.Models.CredenzialiModel
+
+<h1>Pagina dell'amministratore</h1>
+
+@{ 
+    ViewBag.Title = "Users";
+}
+
+<!-- include the js -->
+<script src="~/Scripts/alertify.min.js"></script>
+<!-- include the style -->
+<link rel="stylesheet" href="~/Content/alertifyjs/alertify.min.css" />
+<!-- include a theme -->
+<link rel="stylesheet" href="~/Content/alertifyjs/themes/default.min.css" />
+
+@if (ViewBag.Alert == true)
+{
+    <script>alertify.error('@ViewBag.alertMessage');</script>
+}
+
+@if (ViewBag.AlertSucces != null && ViewBag.AlertSucces == true)
+{
+    <script>alertify.success('@ViewBag.MessageSuccess');</script>
+}
+
+@if ((string)Session["activeRole"] == "A") //cast esplicito
+{
+    <h3>Uteni che sono registrati alla e-commerce!</h3>
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <td>ID</td>
+                <td>Username</td>
+                <td>Nome</td>
+                <td>Cognome</td>
+                <td>Nazione</td>
+                <td>email</td>
+                <td>Stato</td>
+                <td>Operazione</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var el in Model.ListOfUsers)
+            {
+            <tr>
+                <td>@el.Utente.ID</td>
+                <td>@el.Username</td>
+                <td>@el.Utente.Nome</td>
+                <td>@el.Utente.Cognome</td>
+                <td>@el.Utente.IndirizzoSpedizione.Nazione</td>
+                <td>@el.Email</td>
+                <td>@el.Utente.Attivo</td>
+                @if (el.Utente.Attivo)
+                {
+                    <td>
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            <input id="ID"
+                                   name="ID"
+                                   type="hidden"
+                                   value="@el.Utente.ID" />
+                            <input id="stato"
+                                   name="stato"
+                                   type="hidden"
+                                   value="@el.Utente.Attivo.ToString()" />
+                            <input type="image" name="Submit" src="../ImmaginiAmministratore/block.png" height="24" ; width="24" />
+                        }
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            <input id="ID"
+                                   name="ID"
+                                   type="hidden"
+                                   value="@el.Utente.ID" />
+                            <input id="stato"
+                                   name="stato"
+                                   type="hidden"
+                                   value="@el.Utente.Attivo.ToString()" />
+                            <input type="image" name="Submit" src="../ImmaginiAmministratore/enable.png" height="24" ; width="24" />
+                        }
+                    </td>
+                }
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h2><font color="red">Non sei loggato oppure non sei l'amministratore!</font></h2>
+    <h4><font color="red">Per poter accedere a questa funzionalità devi accedere ed essere l'amministrator!</font></h4>
+}
+
+
