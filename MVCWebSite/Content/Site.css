@@ -1,0 +1,299 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+/*INFORMAZIONI CSS*/
+.message-error{
+    color: red;
+    font:large;
+    font-family:sans-serif;
+}
+
+/* Formati per l'icona dell'utente che ha fatto accesso*/
+* {
+    box-sizing: border-box;
+}
+
+.containerUserIcon {
+    position: relative;
+    width: 40px;
+    max-width: 40px;
+    height: 40px;
+}
+
+.imageUserIcon {
+    display: block;
+    width: 40px;
+    height: 40px;
+}
+
+.overlayUserIcon {
+    position: absolute;
+    bottom: 0;
+    background: rgb(0, 0, 0);
+    background: rgba(0, 0, 0, 0.5); /* Black see-through */
+    color: #f1f1f1;
+    width: 40px;
+    height: 40px;
+    transition: .5s ease;
+    opacity: 0;
+    color: white;
+    font-size: 10px;
+    padding: 2px;
+    text-align: center;
+}
+
+.containerUserIcon:hover .overlayUserIcon {
+    opacity: 1;
+}
+
+/*
+.cardProduct {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 23%;
+}
+
+.cardProduct:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.containerProduct {
+    padding: 2px 16px;
+    flex: 1
+}
+*/
+.flex-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: lightgoldenrodyellow;
+    justify-content: center;
+}
+
+.flex-container > div {
+    background-color: #f1f1f1;
+    margin: 5px;
+    padding: 20px;
+    font-size: 10px;
+}
+
+.cardProduct {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    margin: auto;
+    text-align: center;
+    font-family: arial;
+}
+
+.priceProduct {
+    color: grey;
+    font-size: 22px;
+}
+
+.cardProductButton {
+    border: none;
+    outline: 0;
+    padding: 12px;
+    color: white;
+    background-color: black;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+}
+
+.cardProductButton:hover {
+    opacity: 0.7;
+}
+
+.buttonProductImage {
+    width: 400px;
+    height: 400px;
+    background-image: url('~/ImmaginiAmministratore/userIcon.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+/*STILE per la tabella dei prodotti in vendita da venditore */
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: center;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+    text-align: center;
+}
+
+.styled-table tbody tr {
+border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/* Create two columns/boxes that floats next to each other */
+nav {
+    float: left;
+    width: 30%;
+    height: 300px; /* only for demonstration, should be removed */
+   
+    padding: 20px;
+}
+
+    /* Style the list inside the menu */
+    nav ul {
+        list-style-type: none;
+        padding: 0;
+        
+    }
+
+article {
+    float: left;
+    padding: 20px;
+    width: 70%;
+    height: 300px; /* only for demonstration, should be removed */
+}
+
+/* Clear floats after the columns */
+section::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Style the footer */
+footer {
+    background-color: #777;
+    padding: 10px;
+    text-align: center;
+    color: white;
+}
+
+pre{
+    background-color: lightyellow;
+    font-size: 40px;
+}
+
+/* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+
+
+.buttonX {
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font: bold;
+    font-size: 60px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.buttonX1 {
+    background-color: white;
+    border: 2px solid #0085ff;
+    border-radius: 10px 10px 10px 10px;
+    text-decoration: none;
+}
+
+
+.actionclass {
+    text-decoration: none;
+    color:dodgerblue;
+}
+    .actionclass:hover {
+        text-decoration: none;
+        color: #ffc801;
+    }
+
+
+.box {
+    width: 191px !important;
+    width /**/: 200px;
+    height: 190px !important;
+    height /**/: 200px;
+    padding: 4px;
+    border: 1px solid #EEE;
+    border-right: 0 solid;
+    background: url(gradient.png) repeat-x fixed top left;
+    overflow: auto
+}
+
+/* FOOTER position*/
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: inherit;
+    text-align: center;
+}
+
+/* style for footer link*/
+.footerStyle {
+    text-decoration: none;
+    color: white;
+}
+
+/*delete button image*/
+.deleteButton {
+    background-image: url('~/ImmaginiAmministratore/delete.png');
+    width: auto;
+    height: auto;
+}
+
+.title1 {
+    text-align: center;
+    font-size: 90px;
+    font-family: 'Baskerville Old Face';
+    color: Highlight;
+}
